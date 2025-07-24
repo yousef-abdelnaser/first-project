@@ -1,43 +1,18 @@
 #include <iostream>
-#include <cmath>
-#include <algorithm>
-#include <limits.h>
-#include <vector>
 #include <string>
-#include <utility>
-#include <queue>
-#include <deque>
-#include <stack>
-#include <set>
 #include <map>
-#include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
+#include <deque>
 using namespace std;
-typedef tree<long long, null_type, greater<long long>,
-             rb_tree_tag, tree_order_statistics_node_update>
-    orderedSet;
-
-void Erase(orderedSet &s, int val)
-{
-    int rank = s.order_of_key(val);
-    auto it = s.find_by_order(rank);
-    s.erase(it);
-}
-
 #define fast()               \
     ios::sync_with_stdio(0); \
     cin.tie(0);              \
     cout.tie(0)
-#define ll long long
 #define el '\n'
 #define sp " "
-#define yes "YES\n"
-#define no "NO\n"
 
 /************************************/
 map<int, deque<string>> spec;
+map<string,string>Patients_Status;
 class patients_data
 {
     int specialization, status;
@@ -45,7 +20,7 @@ class patients_data
 
 public:
     patients_data();
-    static void enter_patients_data(int a, int b, char c[])
+    static void enter_patients_data(int a, char c[], int b)
     {
         if (spec[a].size() >= 5)
         {
@@ -55,21 +30,33 @@ public:
         {
             if (b == 0)
             {
+                Patients_Status[c] = "regular";
                 spec[a].push_back(c);
             }
             else
             {
+                Patients_Status[c] = "urgent";
                 spec[a].push_front(c);
             }
         }
     }
-    static void print_patients()
+    static void print_patients(int x)
     {
-        for (auto [x, y] : spec)
+        if(x == 0)
         {
-            for (auto q : y)
+            for (auto [x, y] : spec)
             {
-                cout << "Name : " << q << "  ||  Spec : " << x << el;
+                for (auto q : y)
+                {
+                cout << "Name : " << q << "  ||  Spec : " << x
+                << " || Status : " << Patients_Status[q] << el ;
+                }
+            }
+        }
+        else
+        {
+            for(auto q : spec[x]){
+                cout << "Name : " << q << " || Status : " << Patients_Status[q] << el ;
             }
         }
     }
@@ -84,16 +71,30 @@ public:
 
 int main()
 {
-    patients_data::enter_patients_data(1, 1, "yousef");
-    patients_data::enter_patients_data(1, 0, "yousef1");
-    patients_data::enter_patients_data(1, 1, "yousef2");
-    patients_data::enter_patients_data(1, 0, "yousef3");
-    patients_data::enter_patients_data(1, 0, "yousef4");
-    patients_data::enter_patients_data(1, 1, "yousef5");
-
-    patients_data::print_patients();
-
-    patients_data::pick_patient(1);
-    patients_data::pick_patient(1);
-    patients_data::pick_patient(5);
+    int num , SP , ST ; char N[20] ; string Name; 
+    cout << "Enter your choice:\n" << "1) Add new patient\n" 
+    << "2)Print all patients\n" << "3) Get next patient\n" << "4) Exit\n" ; 
+    while(true){
+        cin >> num ;
+        if(num == 1){
+            cout << "Enter patient's name : " ; cin >> N ;
+            cout << "\nEnter specialization : " ; cin >> SP ; 
+            cout << "\nEnter patient's status : " ; cin >> ST ; 
+            patients_data::enter_patients_data(SP,N,ST);
+        }
+        else if(num == 2){
+            int X ; 
+            cout << "For all patients enter 0\nor enter the number of specialization\n";
+            cin >> X ; 
+            patients_data::print_patients(X);
+        }
+        else if(num == 3)
+        {
+            int S ;
+            cout << "Enter Specialization : " ; cin >> S ; 
+            patients_data::pick_patient(S);
+        }
+        else if(num == 4){return 0;}
+        else{cout << "Please Enter a valid number\n";}
+    }
 }
