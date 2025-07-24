@@ -73,7 +73,7 @@ int main()
 {
     int num , SP , ST ; char N[20] ; string Name; 
     cout << "Enter your choice:\n" << "1) Add new patient\n" 
-    << "2)Print all patients\n" << "3) Get next patient\n" << "4) Exit\n" ; 
+    << "2) Print all patients\n" << "3) Get next patient\n" << "4) Exit\n" ; 
     while(true){
         cin >> num ;
         if(num == 1){
